@@ -1,2 +1,5 @@
-git # Node modules
+# Node modules
 node_modules/
+
+#eslint 
+eslint.config.mjs
