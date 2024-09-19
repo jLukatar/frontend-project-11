@@ -1,5 +1,3 @@
-// Generated using webpack-cli https://github.com/webpack/webpack-cli
-
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -25,6 +23,21 @@ const config = {
     ],
     module: {
         rules: [
+          { test: /\.css$/, use: ['style-loader', 'css-loader', 'postcss-loader'] },
+          {
+            test: /\.scss$/,
+            use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader',
+              {
+                loader: 'sass-loader',
+                options: {
+                  sassOptions: {
+                    quietDeps: true, // Suppresses deprecation warnings from dependencies
+                  },
+                },
+              },
+            ],
+            
+          },
             {
                 test: /\.(js|jsx)$/i,
                 loader: 'babel-loader',
