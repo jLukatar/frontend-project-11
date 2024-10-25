@@ -39,9 +39,12 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
+    "i18next": "^23.16.0",
     "on-change": "^5.0.1",
     "onchange": "^7.1.0",
+    "v4": "^0.0.1",
     "yup": "^1.4.0"
   }
 }
