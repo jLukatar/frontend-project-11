@@ -16,6 +16,7 @@ const state = {
   feedsUrl: [],
   feeds: [],
   items: [],
+  readPosts: [],
 };
 
 const elements = {
@@ -138,3 +139,11 @@ document.querySelector(".rss-form").addEventListener("submit", (event) => {
 });
 
 
+document.querySelector(".posts").addEventListener("click", (event) => {
+  event.preventDefault();
+  if (event.target.classList.contains("viewBtn")) {
+    const id = event.target.dataset.id;
+    const item = state.items.find((element) => element.itemId === id);
+    watchedState.readPosts.push(item.itemId);
+  }
+});

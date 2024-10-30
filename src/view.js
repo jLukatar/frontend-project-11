@@ -36,11 +36,11 @@ const renderNewItems = (elements, state) => {
     link.setAttribute("href", item.link);
     link.setAttribute("target", "_blank");
     link.setAttribute("rel", "noopener noreferrer");
-    link.classList.add("fw-bold");
+    state.readPosts.includes(item.itemId) ? link.classList.add("fw-normal", "link-secondary") : link.classList.add("fw-bold");
     link.dataset.id = item.itemId;
     link.textContent = item.title;
     const button = document.createElement("button");
-    button.classList.add("btn", "btn-outline-primary", "btn-sm");
+    button.classList.add("btn", "btn-outline-primary", "btn-sm" , "viewBtn");
     button.dataset.id = item.itemId;
     button.dataset.bsToggle = "modal";
     button.dataset.bsTarget = "#modal";
@@ -112,6 +112,9 @@ const stateWatcher = (state, elements) => {
           if (state.status in statusHandlers) {
             statusHandlers[state.status](elements, state);
           }
+          break;
+        case 'readPosts':
+          renderNewItems(elements, state);
           break;
         default:
           /*console.error(`Unknown path: ${path}`);*/

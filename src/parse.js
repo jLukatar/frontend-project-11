@@ -25,6 +25,7 @@ const  parseRssFeed = (xmlString, url) => {
         link: item.querySelector('link').textContent,
         description: item.querySelector('description').textContent,
         feedId,
+        itemId
       })
     });
     return { feed, items };
