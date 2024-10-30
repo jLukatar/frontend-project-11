@@ -1,25 +1,5 @@
 import onChange from 'on-change';
 
-const stateWatcher = (state, elements) => {
-    return onChange(state, (path) => {
-      switch (path) {
-        case 'form.feedback':
-            renderFormError(elements, state);
-          break;
-        case 'feedsUrl':
-            renderFormSuccess(elements, state);
-          break;
-        case 'items': renderNewItems(elements, state);
-          break;
-          case 'feeds': renderFeeds(elements, state);
-          break;
-        default:
-            //throw new Error(`Unknown path: ${path}`);
-          break;
-      }
-    });
-  };
-
 const renderFormError = (elements, state) =>{
   elements.feedback.textContent = state.form.feedback;
   elements.feedback.classList.add("text-danger");
@@ -49,9 +29,7 @@ const renderNewItems = (elements, state) => {
   cardTitle.textContent = 'Посты';
   const itemsList = document.createElement("ul");
   itemsList.classList.add("list-group", "border-0", "rounded-0");
-  console.log(state.items);
-  Object.values(state.items).reverse().forEach((item) => {
-    console.log(item);
+  state.items.forEach((item) => {
    const listItem = document.createElement("li");
     listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-start", "border-0", "border-end-0");
     const link = document.createElement("a");
@@ -67,7 +45,8 @@ const renderNewItems = (elements, state) => {
     button.dataset.bsToggle = "modal";
     button.dataset.bsTarget = "#modal";
     button.textContent = "Просмотр";
-    listItem.append(link, button);
+    listItem.append(link);
+    listItem.append(button);
     itemsList.append(listItem);
 
     button.addEventListener("click", () => {
@@ -97,7 +76,7 @@ const renderNewItems = (elements, state) => {
     cardTitle.textContent = 'Фиды';
     const feedsList = document.createElement("ul");
     feedsList.classList.add("list-group", "border-0", "rounded-0");
-    Object.values(state.feeds).reverse().forEach((feed) => {
+    state.feeds.reverse().forEach((feed) => {
       const listItem = document.createElement("li");
       listItem.classList.add("list-group-item", "border-0", "border-end-0");
       const feedName = document.createElement('h3');
@@ -115,5 +94,30 @@ const renderNewItems = (elements, state) => {
   cardBorder.append(cardBody);
   elements.feeds.append(cardBorder);
 }
+
+const statusHandlers = {
+  Success: renderFormSuccess,
+  Error: renderFormError,
+};
+const stateWatcher = (state, elements) => {
+    return onChange(state, (path) => {
+      switch (path) {
+        case 'items':
+          renderNewItems(elements, state);
+          break;
+        case 'feeds':
+          renderFeeds(elements, state);
+          break;
+        case 'status':
+          if (state.status in statusHandlers) {
+            statusHandlers[state.status](elements, state);
+          }
+          break;
+        default:
+          /*console.error(`Unknown path: ${path}`);*/
+          break;
+      }
+    });
+  };
 
 export { stateWatcher }; 
