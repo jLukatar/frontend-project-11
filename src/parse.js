@@ -1,15 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 
-let id = 1;
 
-const setId = () => id++;
 
 const  parseRssFeed = (xmlString, url) => {
   const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlString, 'text/xml'); 
     const channel = xmlDoc.querySelector('channel');
     const rssItems = xmlDoc.querySelectorAll('item');
-    const feedId =  setId();  
+    const feedId =  uuidv4();  
     const feed = {
         name: channel.querySelector('title').textContent,
         description: channel.querySelector('description').textContent,
